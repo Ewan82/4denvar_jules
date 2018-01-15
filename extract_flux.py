@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.mlab as mlab
+import datetime as dt
 
 
 def extract_met(fname, sname):
@@ -38,3 +39,26 @@ def vpd2q_air(vpd, t_air, pressure):
     p_mb = pressure/100.0
     q_air = (0.622*e) / (p_mb - (0.378*e))
     return q_air
+
+
+def extract_assim_day(fname, sname, year):
+    re_arr = mlab.csv2rec(fname)
+    time_step = np.array([dt.datetime.strptime(str(timestamp), '%Y%m%d') for timestamp in re_arr['timestamp']])
+    years = np.array([date.year for date in time_step])
+    yr_idx = np.where(years==year)[0]
+    times = re_arr['timestamp'][yr_idx]
+    le = re_arr['le_f_mds'][yr_idx]
+    le_qc = re_arr['le_f_mds_qc'][yr_idx]
+    le_unc = re_arr['le_randunc'][yr_idx]
+    sm1 = re_arr['swc_f_mds_1'][yr_idx]
+    sm1_qc = re_arr['swc_f_mds_1_qc'][yr_idx]
+    # sm2 = re_arr['swc_f_mds_2'][yr_idx]
+    # sm2_qc = re_arr['swc_f_mds_2_qc'][yr_idx]
+    nee = re_arr['nee_cut_ref'][yr_idx]
+    nee_qc = re_arr['nee_cut_ref_qc'][yr_idx]
+    gpp = re_arr['gpp_nt_cut_ref'][yr_idx]
+    gpp_se = re_arr['gpp_nt_cut_se'][yr_idx]
+    assim_dat = np.column_stack((times, le, le_qc, le_unc, sm1, sm1_qc, nee, nee_qc, gpp, gpp_se))
+    np.savetxt(sname, assim_dat,
+               header='times, le, le_qc, le_unc, sm1, sm1_qc, nee, nee_qc, gpp, gpp_se')
+    return 'done'

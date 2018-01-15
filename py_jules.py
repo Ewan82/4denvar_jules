@@ -177,7 +177,8 @@ class jules(julesAllNML):
         return 'Done', 'Done'
 
 
-def crop_run(sow_date=110, b=6.631, smwilt=0.1866, neff=5.70e-4, output_name='none'):
+def crop_run(sow_date=110, b=6.631, smwilt=0.1866, neff=8.00e-4, lai=4, rootd=1, n_leaf=0.033, alpha=0.08, tlow=-10,
+             tupp=26, output_name='none'):
     """
     Function that runs JULES with crop model turned on and given user defined parameters at Wallerfing site. Output is
     saved in folder and file specified within function.
@@ -205,14 +206,22 @@ def crop_run(sow_date=110, b=6.631, smwilt=0.1866, neff=5.70e-4, output_name='no
         j.output_nml.mapping["jules_output_1_run_id"] = "'" + output_name + "',"
         output_nml.mapping["jules_output_1_output_dir"] = "'./output/test',"
     print j.output_nml.mapping["jules_output_1_run_id"]
-    j.timesteps_nml.mapping["jules_time_1_main_run_start"] = " '2012-01-01 00:00:00',"
-    j.timesteps_nml.mapping["jules_spinup_1_max_spinup_cycles"] = " 0"
+    j.timesteps_nml.mapping["jules_time_1_main_run_start"] = " '2010-01-01 00:00:00',"
+    j.timesteps_nml.mapping["jules_spinup_1_max_spinup_cycles"] = " 2"
     j.ancillaries_nml.mapping["jules_crop_props_1_const_val"] = " 510.11138916 501.136169434 " + str(sow_date)
     j.ancillaries_nml.mapping["jules_soil_props_1_const_val"] = str(b)+", 0.3967309, 0.0027729999, 0.45809999, " \
                                                               "0.3283205, "+str(smwilt)+", 1185786.0, 0.2269195, 0.17,"
-    j.pft_params_nml.mapping["jules_pftparm_1_neff_io"] = "8.00e-4,8.00e-4,8.00e-4,4.00e-4,8.00e-4," + str(neff) + \
-                                                          ", 8.00e-4,4.00e-4,8.00e-4,"
-    j.runJules()
+    j.pft_params_nml.mapping["jules_pftparm_1_neff_io"] = "8.00e-4,"+str(neff)+",8.00e-4,4.00e-4,8.00e-4,0.000579264152199, " \
+                                                          "8.00e-4,4.00e-4,8.00e-4,,"
+    j.jules_vegetation_nml.mapping["jules_vegetation_1_l_phenol"]=".false.,"
+    j.jules_vegetation_nml.mapping["jules_vegetation_1_phenol_period"] = "1,"
+    j.pft_params_nml.mapping["jules_pftparm_1_lai_io"] = " 5,"+str(lai)+",2,4,1,2,2,4,2,"
+    j.pft_params_nml.mapping["jules_pftparm_1_rootd_ft_io"] = " 3,"+str(rootd)+",7*1.7,"
+    j.pft_params_nml.mapping["jules_pftparm_1_nl0_io"]=" 0.046,"+str(n_leaf)+",0.073,0.06,0.06,0.073,0.073,0.06,0.073,"
+    j.pft_params_nml.mapping["jules_pftparm_1_alpha_io"]=" 0.08,"+str(alpha)+",0.12,0.06,0.08,0.12,0.12,0.06,0.12,"
+    j.pft_params_nml.mapping["jules_pftparm_1_tlow_io"]=" 0,"+str(tlow)+",0,13,0,0,0,13,0,"
+    j.pft_params_nml.mapping["jules_pftparm_1_tupp_io"]=" 36,"+str(tupp)+",36,45,36,46,36,45,36,"
+    j.runJules_print()
     return 'Done'
 
 

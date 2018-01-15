@@ -1,21 +1,21 @@
 
 &jules_output
-dump_period= 100,,
-nprofiles= 1,,
-output_dir= './output/test',,
-run_id= 'xa',,
+dump_period=  100,,
+nprofiles=  1,,
+output_dir= './output/ens_run_15',,
+run_id= 'ens4',,
 /
 
 &jules_output_profile
-file_period= 0,,
-nvars= 21,,
-output_main_run= .true.,,
-output_period= 86400,,
-output_spinup= .false.,,
-output_type= 21*'M',,
-profile_name= 'daily',,
-var= 'rainfall', 't1p5m', 'smcl', 't_soil', 'tstar', 'cropdvi', 'croprootc', 'cropharvc', 'cropreservec', 'croplai', 'cropcanht', 'cropyield', 'harvest_counter', 'harvest_trigger', 'cropstemc', 'cropleafc', 'cropsowdate', 'fsmc', 'fsmc_gb', 'gpp_gb', 'npp',
-var_name= 'rainfall', 't1p5m', 'smcl', 't_soil', 'tstar', 'cropdvi', 'croprootc', 'cropharvc', 'cropreservec', 'croplai', 'cropcanht', 'cropyield', 'harvest_counter', 'harvest_trigger', 'cropstemc', 'cropleafc', 'cropsowdate', 'fsmc', 'fsmc_gb', 'gpp_gb', 'npp',
+file_period=  0,,
+nvars=  10,,
+output_main_run=  .true.,,
+output_period=  86400,,
+output_spinup=  .false.,,
+output_type=  10*'M',,
+profile_name=  'daily',,
+var=  'rainfall', 'precip', 'smcl', 't_soil', 'tstar', 'fsmc', 'npp', 'gpp', 'lai', 'latent_heat',,
+var_name=  'rainfall', 'precip', 'smcl', 't_soil', 'tstar', 'fsmc', 'npp', 'gpp', 'lai', 'latent_heat',,
 /
 
 
