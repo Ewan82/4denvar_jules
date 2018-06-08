@@ -31,6 +31,15 @@ def rh2q_air(rh, t_air, pressure):
     return q_air
 
 
+def q_air2rh(q_air, t_air, pressure):
+    tc = t_air - 273.15
+    es = 6.112 * np.exp((17.67 *tc) / (tc + 243.5))
+    p_mb = pressure/100.0
+    e = (q_air*p_mb) / (0.622 + 0.378*q_air)
+    rh = 100 * (e / es)
+    return rh
+
+
 def vpd2q_air(vpd, t_air, pressure):
     tc = t_air - 273.15
     es = 6.112 * np.exp((17.67 *tc) / (tc + 243.5))
@@ -47,18 +56,25 @@ def extract_assim_day(fname, sname, year):
     years = np.array([date.year for date in time_step])
     yr_idx = np.where(years==year)[0]
     times = re_arr['timestamp'][yr_idx]
-    le = re_arr['le_f_mds'][yr_idx]
+    le = re_arr['le_corr'][yr_idx]
     le_qc = re_arr['le_f_mds_qc'][yr_idx]
     le_unc = re_arr['le_randunc'][yr_idx]
+    h = re_arr['h_corr'][yr_idx]
+    h_qc = re_arr['h_f_mds_qc'][yr_idx]
+    h_unc = re_arr['h_randunc'][yr_idx]
+    g = re_arr['g_f_mds'][yr_idx]
+    g_qc = re_arr['g_f_mds_qc'][yr_idx]
     sm1 = re_arr['swc_f_mds_1'][yr_idx]
     sm1_qc = re_arr['swc_f_mds_1_qc'][yr_idx]
     # sm2 = re_arr['swc_f_mds_2'][yr_idx]
     # sm2_qc = re_arr['swc_f_mds_2_qc'][yr_idx]
     nee = re_arr['nee_cut_ref'][yr_idx]
     nee_qc = re_arr['nee_cut_ref_qc'][yr_idx]
-    gpp = re_arr['gpp_nt_cut_ref'][yr_idx]
-    gpp_se = re_arr['gpp_nt_cut_se'][yr_idx]
-    assim_dat = np.column_stack((times, le, le_qc, le_unc, sm1, sm1_qc, nee, nee_qc, gpp, gpp_se))
+    gpp = re_arr['gpp_dt_cut_ref'][yr_idx]
+    gpp_se = re_arr['gpp_dt_cut_se'][yr_idx]
+    assim_dat = np.column_stack((times, le, le_qc, le_unc, h, h_qc, h_unc, g, g_qc, sm1, sm1_qc, nee, nee_qc, gpp,
+                                 gpp_se))
     np.savetxt(sname, assim_dat,
-               header='times, le, le_qc, le_unc, sm1, sm1_qc, nee, nee_qc, gpp, gpp_se')
+               header='times, le, le_qc, le_unc, h, h_qc, h_unc, g, g_qc, sm1, sm1_qc, nee, nee_qc, gpp, gpp_se',
+               delimiter=',', comments='')
     return 'done'

@@ -1,0 +1,25 @@
+&jules_output
+    dump_period = 100
+    nprofiles = 1
+    output_dir = '../output/background'
+    run_id = 'xb'
+/
+
+&jules_output_profile
+    file_period = 0
+    nvars = 22
+    output_main_run = .true.
+    output_period = 86400
+    output_spinup = .false.
+    output_type = 'M', 'M', 'M', 'M', 'M', 'M', 'M', 'M', 'M', 'M', 'M',
+                  'M', 'M', 'M', 'M', 'M', 'M', 'M', 'M', 'M', 'M', 'M'
+    profile_name = 'daily'
+    var = 'precip', 'smcl', 't_soil', 'tstar', 'fsmc', 'gpp', 'gpp_gb',
+          'croplai', 'latent_heat', 'le', 'ftl_gb', 'ftl', 't1p5m_gb', 'lai',
+          'cropcanht', 'qw1', 'resp_p', 'resp_s', 'npp', 'npp_gb', 'resp_s_gb',
+          'resp_s_to_atmos_gb'
+    var_name = 'precip', 'smcl', 't_soil', 'tstar', 'fsmc', 'gpp', 'gpp_gb',
+               'croplai', 'latent_heat', 'le', 'ftl_gb', 'ftl', 't1p5m_gb',
+               'lai', 'cropcanht', 'qw1', 'resp_p', 'resp_s', 'npp', 'npp_gb',
+               'resp_s_gb', 'resp_s_to_atmos_gb'
+/

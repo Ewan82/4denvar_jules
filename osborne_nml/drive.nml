@@ -1,0 +1,13 @@
+&jules_drive
+    diff_frac_const = 0.3
+    data_start = '2001-01-01 00:00:00'
+    data_end = '2014-01-01 00:00:00'
+    data_period = 3600
+    file = '../mead_met.dat'
+    nvars = 7
+    var = 'sw_down', 'lw_down', 'precip', 't', 'wind', 'pstar', 'q'
+    interp = 'nf', 'nf', 'nf', 'nf', 'nf', 'nf', 'nf', 'nf'
+    l_daily_disagg = .false.
+    l_imogen = .false.
+    l_perturb_driving = .false.
+/
